@@ -17,6 +17,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: 127.0.0.1
+  password: postgres
+  username: postgres
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -82,5 +85,3 @@ test:
 production:
   <<: *default
   database: headless_gacha_production
-  username: headless_gacha
-  password: <%= ENV['HEADLESS_GACHA_DATABASE_PASSWORD'] %>
