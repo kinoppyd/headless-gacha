@@ -1,39 +1,20 @@
 class GachasController < ApplicationController
-  before_action :set_gacha, only: [:show, :update, :destroy]
+  before_action :set_gacha, only: [:show, :destroy]
 
-  # GET /gachas
   def index
-    @gachas = Gacha.all
-
-    render json: @gachas
+    items = parse_items
+    if items
+      gacha = Gacha.create!(items: items, seed: seed)
+      redirect_to gacha
+    else
+      render json: []
+    end
   end
 
-  # GET /gachas/1
   def show
-    render json: @gacha
+    render json: @gacha.gacha
   end
 
-  # POST /gachas
-  def create
-    @gacha = Gacha.new(gacha_params)
-
-    if @gacha.save
-      render json: @gacha, status: :created, location: @gacha
-    else
-      render json: @gacha.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /gachas/1
-  def update
-    if @gacha.update(gacha_params)
-      render json: @gacha
-    else
-      render json: @gacha.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /gachas/1
   def destroy
     @gacha.destroy
   end
@@ -47,5 +28,18 @@ class GachasController < ApplicationController
     # Only allow a list of trusted parameters through.
     def gacha_params
       params.fetch(:gacha, {})
+    end
+
+    def seed
+      Random.new_seed
+    end
+
+    def parse_items
+      return if !params[:items] || params[:items].blank?
+
+      items = params[:items]
+      return items if items.kind_of?(Array)
+
+      items.include?(",") ? items.split(",") : Array(items)
     end
 end

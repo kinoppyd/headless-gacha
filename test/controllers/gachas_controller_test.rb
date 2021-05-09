@@ -6,26 +6,23 @@ class GachasControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get gachas_url, as: :json
+    get gachas_url
     assert_response :success
   end
 
-  test "should create gacha" do
-    assert_difference('Gacha.count') do
-      post gachas_url, params: { gacha: {  } }, as: :json
-    end
+  test "should redirect to permanent show page if array items given" do
+    get gachas_url, params: { items: ["A", "B", "C"] }
+    assert_response :redirect
+  end
 
-    assert_response 201
+  test "should redirect to permanent show page if comma splitted items given" do
+    get gachas_url, params: { items: "A,B,C" }
+    assert_response :redirect
   end
 
   test "should show gacha" do
     get gacha_url(@gacha), as: :json
     assert_response :success
-  end
-
-  test "should update gacha" do
-    patch gacha_url(@gacha), params: { gacha: {  } }, as: :json
-    assert_response 200
   end
 
   test "should destroy gacha" do

@@ -4,8 +4,11 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
+one: 
+  items: 
+    - "A"
+    - "B"
+    - "C"
+  seed: "23688280381612782045385192955746576626"
 two: {}
 # column: value
