@@ -19,7 +19,7 @@ class Ogp
   private
 
   def target_path?(env)
-    env['REQUEST_PATH'].start_with?('/gachas')
+    env['REQUEST_PATH']&.start_with?('/gachas')
   end
 
   def target_agent?(env)
