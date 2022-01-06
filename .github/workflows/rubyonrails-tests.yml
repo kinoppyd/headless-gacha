@@ -1,0 +1,45 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies, and  run linters
+name: Rails - Install dependencies and run linters
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14.1
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        env:
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+    container:
+      image: ruby:3.0.1
+      env:
+        RAILS_ENV: test
+        DATABASE_URL: postgres://postgres:@postgres:5432
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache bundle gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-${{ env.cache-name }}-
+            ${{ runner.os }}-gem-
+            ${{ runner.os }}-
+      - name: Bundle install
+        run: bundle install --path=vendor/bundle --jobs 4 --retry 3
+      - name: DB setup
+        run: bin/rails db:setup
+      - name: Run tests
+        run: bin/rails test
