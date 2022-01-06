@@ -1,5 +1,10 @@
+# frozen_string_literal: true
+
+#
+# GachaController
+#
 class GachasController < ApplicationController
-  before_action :set_gacha, only: [:show, :destroy]
+  before_action :set_gacha, only: %i[show destroy]
 
   def index
     items = parse_items
@@ -20,26 +25,27 @@ class GachasController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gacha
-      @gacha = Gacha.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def gacha_params
-      params.fetch(:gacha, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_gacha
+    @gacha = Gacha.find(params[:id])
+  end
 
-    def seed
-      Random.new_seed
-    end
+  # Only allow a list of trusted parameters through.
+  def gacha_params
+    params.fetch(:gacha, {})
+  end
 
-    def parse_items
-      return if !params[:items] || params[:items].blank?
+  def seed
+    Random.new_seed
+  end
 
-      items = params[:items]
-      return items if items.kind_of?(Array)
+  def parse_items
+    return if !params[:items] || params[:items].blank?
 
-      items.include?(",") ? items.split(",") : Array(items)
-    end
+    items = params[:items]
+    return items if items.is_a?(Array)
+
+    items.include?(',') ? items.split(',') : Array(items)
+  end
 end

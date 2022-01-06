@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+#
+# Gacha
+#
 class Gacha < ApplicationRecord
   validates :items, presence: true
   validates :seed, presence: true, numericality: { only_integer: true }

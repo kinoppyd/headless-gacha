@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
+#
+# OGP middleware class
+#
 class Ogp
   TARGET_AGENTS = [
     /^Slackbot-LinkExpanding/
-  ]
+  ].freeze
 
   def initialize(app)
     @app = app
@@ -10,7 +15,7 @@ class Ogp
   def call(env)
     status, headers, body = @app.call(env)
     if target_path?(env) && target_agent?(env)
-      headers["Content-Type"] = "text/html; charset=UTF-8"
+      headers['Content-Type'] = 'text/html; charset=UTF-8'
       body = body.each.map { |s| reform_body(s) }
     end
     [status, headers, body]
@@ -23,10 +28,10 @@ class Ogp
   end
 
   def target_agent?(env)
-    TARGET_AGENTS.any? { |regexp| regexp.match?(env["HTTP_USER_AGENT"]) }
+    TARGET_AGENTS.any? { |regexp| regexp.match?(env['HTTP_USER_AGENT']) }
   end
 
   def reform_body(body)
-    %(<html><head><meta property="og:og:description" content="#{JSON.parse(body).join(", ")}"/></head></html>)
+    %(<html><head><meta property="og:og:description" content="#{JSON.parse(body).join(', ')}"/></head></html>)
   end
 end
