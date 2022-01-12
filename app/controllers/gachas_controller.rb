@@ -41,6 +41,10 @@ class GachasController < ApplicationController
   end
 
   def parse_items
+    array_items&.map { |i| URI.decode_www_form_component(i) }
+  end
+
+  def array_items
     return if !params[:items] || params[:items].blank?
 
     items = params[:items]
