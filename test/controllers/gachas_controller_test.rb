@@ -22,6 +22,19 @@ class GachasControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
   end
 
+  test 'redirected path has UUID contents id' do
+    get gachas_url, params: { items: 'A,B,C' }
+    assert @response['Location'].match(%r{/gachas/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})\Z})
+  end
+
+  test 'gacha contents id is different by access' do
+    get gachas_url, params: { items: 'A,B,C' }
+    id_1 = @response['Location'].match(/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})\Z/)[0]
+    get gachas_url, params: { items: 'A,B,C' }
+    id_2 = @response['Location'].match(/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})\Z/)[0]
+    refute_equal id_1, id_2
+  end
+
   test 'returns same items' do
     item1 = 'A'
     item2 = 'B'
