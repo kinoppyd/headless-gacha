@@ -26,16 +26,16 @@ class GachasControllerTest < ActionDispatch::IntegrationTest
     item1 = 'A'
     item2 = 'B'
     item3 = 'C'
-    get gachas_url, params: { items: [item1, item2, item3].join(",") }
+    get gachas_url, params: { items: [item1, item2, item3].join(',') }
     follow_redirect!
 
     assert_equal JSON.parse(@response.body).sort, [item1, item2, item3].sort
   end
 
   test 'returns same decoded items when request with URL encoded items' do
-    item1 = "@%&"
-    item2 = "B-i-g, g-i-e a.k.a. b.i.g."
-    query = [item1, item2].map { |i| URI.encode_www_form_component(i) }.join(",")
+    item1 = '@%&'
+    item2 = 'B-i-g, g-i-e a.k.a. b.i.g.'
+    query = [item1, item2].map { |i| URI.encode_www_form_component(i) }.join(',')
     get gachas_url, params: { items: query }
     follow_redirect!
 

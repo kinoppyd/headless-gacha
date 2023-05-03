@@ -9,7 +9,7 @@ class GachasController < ApplicationController
   def index
     items = parse_items
     if items
-      gacha = Gacha.create!(items: items, seed: seed)
+      gacha = Gacha.create!(items:, seed:)
       redirect_to gacha
     else
       render json: []
