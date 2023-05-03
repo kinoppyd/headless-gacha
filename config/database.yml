@@ -14,19 +14,15 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
+
+development:
   adapter: postgresql
   encoding: unicode
   host: 127.0.0.1
   password: postgres
   username: postgres
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-development:
-  <<: *default
   database: headless_gacha_development
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -59,8 +55,13 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  host: 127.0.0.1
+  password: postgres
+  username: postgres
   database: headless_gacha_test
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -83,5 +84,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  host: 127.0.0.1
+  password: postgres
+  username: postgres
   database: headless_gacha_production
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
