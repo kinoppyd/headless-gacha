@@ -10,13 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_07_144142) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pgcrypto"
-  enable_extension "plpgsql"
-
-  create_table "gachas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.json "items"
+ActiveRecord::Schema[7.0].define(version: 2023_05_08_140638) do
+  create_table "gachas", id: { type: :string, limit: 36 }, force: :cascade do |t|
+    t.string "items"
     t.string "seed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

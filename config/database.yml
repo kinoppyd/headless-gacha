@@ -16,12 +16,12 @@
 #
 
 development:
-  adapter: postgresql
+  adapter: sqlite3
   encoding: unicode
   host: 127.0.0.1
   password: postgres
   username: postgres
-  database: headless_gacha_development
+  database: sqlite/headless_gacha_development
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
   # The specified database role being used to connect to postgres.
@@ -55,12 +55,12 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  adapter: postgresql
+  adapter: sqlite3
   encoding: unicode
   host: 127.0.0.1
   password: postgres
   username: postgres
-  database: headless_gacha_test
+  database: sqlite/headless_gacha_test
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -84,10 +84,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  adapter: postgresql
+  adapter: sqlite3
   encoding: unicode
   host: 127.0.0.1
   password: postgres
   username: postgres
-  database: headless_gacha_production
+  database: sqlite/headless_gacha_production
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
